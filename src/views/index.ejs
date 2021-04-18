@@ -77,26 +77,30 @@
 
         <div class="cards">
           <% jobs.forEach((job) => { %>
-            <div class="card progress" data-id="1">
-              <div class="id column"><%= job.id %>></div>
+            <div class="card <%= job.status %>" data-id="<%= job.id %>">
+              <div class="id column"><%= job.id %></div>
               <div class="name column">
                 <%= job.name %> 
               </div>
               <div class="deadline column">
                 <span>Prazo</span>
-                <p><%= job.date_due %></p>
+                <%if(job.status === 'progress') {%>
+                <p><%= job.remaining %> dias para finalizar</p>
+                <%}else{%>
+                <p>Prazo Encerrado</p>
+                <%}%>
               </div>
               <div class="amount column">
                 <span>Valor</span>
-                <p><%= job.price %></p>
+                <p>R$ <%= job.price.toFixed(2).replace('.',',') %></p>
               </div>
               <div class="status badge column">
-                <%= job.status %>
+                <%= job.status === 'done' ? 'Encerrado' : 'Em andamento' %>
               </div>
               <div class="actions column flex">
                 <p class="sr-only">Ações</p>
                 <a 
-                  href="/job/edit" 
+                  href="/job/<%= job.id %>" 
                   class="button white edit" 
                   title="Editar Job">
                   <img src="./images/edit-24.svg" alt="Editar Job" />
